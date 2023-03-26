@@ -1,3 +1,6 @@
+import { useState } from 'react';
+
+
 //creating components
 function MyButton() {
     return (
@@ -72,3 +75,93 @@ const user = {
 //   )}
 //type 3
 //{isLoggedIn && <AdminPanel />}
+
+
+//render list
+const products = [
+  { title: 'Cabbage', isFruit: false, id: 1 },
+  { title: 'Garlic', isFruit: false, id: 2 },
+  { title: 'Apple', isFruit: true, id: 3 },
+];
+
+function ShoppingList() {
+  const listItems = products.map(product =>
+    <li
+      key={product.id}
+      style={{
+        color: product.isFruit ? 'magenta' : 'darkgreen'
+      }}
+    >
+      {product.title}
+    </li>
+  );
+
+  return (
+    <ul>{listItems}</ul>
+  );
+}
+
+
+
+//respond to events
+function MyButton2() {
+  function handleClick() {
+    alert('You clicked me!');
+  }
+
+  return (
+    <button onClick={handleClick}>
+      Click me
+    </button>
+  );
+}
+
+
+//handling state with use state
+//each button updates separately
+function MyApp2() {
+  return (
+    <div>
+      <h1>Counters that update separately</h1>
+      <MyButton />
+      <MyButton />
+    </div>
+  );
+}
+
+function MyButton3() {
+  const [count, setCount] = useState(0);
+
+  function handleClick() {
+    setCount(count + 1);
+  }
+
+  return (
+    <button onClick={handleClick}>
+      Clicked {count} times
+    </button>
+  );
+}
+//buttons update together
+
+function MyApp3() {
+  const [count, setCount] = useState(0);
+  function handleClick() {
+    setCount(count + 1);
+  }
+  return (
+    <div>
+      <h1>Counters that update together</h1>
+      <MyButton count={count} onClick={handleClick} />
+      <MyButton count={count} onClick={handleClick} />
+    </div>
+  );
+}
+
+function MyButton4({ count, onClick }) {
+  return (
+    <button onClick={onClick}>
+      Clicked {count} times
+    </button>
+  );
+}
