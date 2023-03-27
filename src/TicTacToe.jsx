@@ -9,21 +9,46 @@ function Square({val,onSquareClick}){
 
 
 export default function TicTacToe(){
-    const [squares,setSquares]=useState(Array(9).fill(null))
-    const [xturn,setXturn] = useState(true)
+    const [xnext,setXnext]=useState(true)
+    const [history,setHistory]=useState([Array(9).fill(null)])
+    const currentSquares = history[history.length-1];
+    function handlePlay(nextSquares){
+        setHistory([...history,nextSquares])
+        setXnext(!xnext)
+    }
+   return (
+    <>
+    <div className="game">
+        <div className="game-board">
+            <Board xturn={xnext} handlePlay={handlePlay} squares={currentSquares}/>
+        </div>
+        <div className="game-info">
+
+        </div>
+    </div>
+    </>
+   )
+}
+
+function Board({xturn,handlePlay,squares}){
+    // const [squares,setSquares]=useState(Array(9).fill(null))
+    // const [xturn,setXturn] = useState(true)
     function handleClick(i){
-        if(squares[i] && calculateWinner(squares)){
+        if(squares[i] || calculateWinner(squares)){
             return;
         }
         const newSquares=squares.slice();
-        if(xturn===true && squares[i]===null){
+        if(xturn===true){
             newSquares[i]="X";
-        }else if(xturn===false && squares[i]===null)(
+        }else if(xturn===false)(
             newSquares[i]="0"
         )
-        setSquares(newSquares)
-        setXturn(!xturn)
+        // setSquares(newSquares)
+        // setXturn(!xturn)
+        handlePlay(newSquares)
     }
+
+    //my code
     let status;
     if(calculateWinner(squares)===null){
         if(xturn===true){
@@ -34,6 +59,15 @@ export default function TicTacToe(){
     }else{
         status=calculateWinner(squares)+" is the winner"
     }
+
+    //react website code
+    // const winner = calculateWinner(squares);
+    // let status;
+    // if (winner) {
+    //   status = 'Winner: ' + winner;
+    // } else {
+    //   status = 'Next player: ' + (xturn ? 'X' : 'O');
+    // }
     return (
         <>
         <p style={{fontWeight:"bold"}}>{status}</p>
