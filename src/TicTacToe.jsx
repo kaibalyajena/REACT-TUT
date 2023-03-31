@@ -11,13 +11,19 @@ function Square({val,onSquareClick}){
 export default function TicTacToe(){
     const [xnext,setXnext]=useState(true)
     const [history,setHistory]=useState([Array(9).fill(null)])
-    const currentSquares = history[history.length-1];
+    const [currentMove,setCurrentMove]=useState(0);
+    const currentSquares = history[currentMove]
     function handlePlay(nextSquares){
-        setHistory([...history,nextSquares])
+        const nextHistory=[...history.slice(0,currentMove+1),nextSquares]
+        setHistory(nextHistory)
+        setCurrentMove(nextHistory.length-1)
         setXnext(!xnext)
     }
     function jumpTo(nextMove){
-
+        setCurrentMove(nextMove)
+        if(nextMove%2===0){
+            setXnext(true)
+        }
     }
     const moves = history.map((squares,move)=>{
         let description;
@@ -26,7 +32,7 @@ export default function TicTacToe(){
         }else{
             description="Move to game start"
         }
-        return <li><button onClick={()=>jumpTo(move)}>{description}</button></li>;
+        return <li key={move}><button onClick={()=>jumpTo(move)}>{description}</button></li>;
     })
    return (
     <>
