@@ -16,6 +16,18 @@ export default function TicTacToe(){
         setHistory([...history,nextSquares])
         setXnext(!xnext)
     }
+    function jumpTo(nextMove){
+
+    }
+    const moves = history.map((squares,move)=>{
+        let description;
+        if(move>0){
+            description="go to move #"+move
+        }else{
+            description="Move to game start"
+        }
+        return <li><button onClick={()=>jumpTo(move)}>{description}</button></li>;
+    })
    return (
     <>
     <div className="game">
@@ -23,7 +35,9 @@ export default function TicTacToe(){
             <Board xturn={xnext} handlePlay={handlePlay} squares={currentSquares}/>
         </div>
         <div className="game-info">
-
+            <ol>
+                {moves}
+            </ol>
         </div>
     </div>
     </>
