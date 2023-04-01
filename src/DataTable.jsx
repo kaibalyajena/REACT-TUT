@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 function ProductCategoryRow({ category }) {
     return (
       <tr>
@@ -69,14 +71,21 @@ function ProductCategoryRow({ category }) {
   }
   
   function FilterableProductTable({ products }) {
+    const [filterText, setFilterText] = useState('');
+    const [inStockOnly, setInStockOnly] = useState(false);
     return (
       <div>
-        <SearchBar />
+        <SearchBar onFilterTextChange={setFilterText}
+        onInStockOnlyChange={setInStockOnly}/>
         <ProductTable products={products} />
       </div>
     );
   }
   
+  export default function DataTable() {
+    return <FilterableProductTable products={PRODUCTS} />;
+  }
+
   const PRODUCTS = [
     {category: "Fruits", price: "$1", stocked: true, name: "Apple"},
     {category: "Fruits", price: "$1", stocked: true, name: "Dragonfruit"},
@@ -85,7 +94,3 @@ function ProductCategoryRow({ category }) {
     {category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin"},
     {category: "Vegetables", price: "$1", stocked: true, name: "Peas"}
   ];
-  
-  export default function DataTable() {
-    return <FilterableProductTable products={PRODUCTS} />;
-  }
